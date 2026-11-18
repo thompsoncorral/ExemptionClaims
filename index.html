@@ -10,21 +10,53 @@
 <body>
 
   <header class="site-header">
-    <div class="wrap">
-      <a href="index.html">
+    <div class="wrap header-row">
+      <a class="brand" href="index.html">
         <p class="brand-title">Selective Service</p>
         <p class="brand-sub">Exemptions &amp; Entitlements</p>
       </a>
+      <nav class="mainnav">
+        <a href="index.html#entitled">Entitlements</a>
+        <a href="pages/exemptions.html">Exemptions</a>
+        <a href="index.html#faq">FAQ</a>
+        <a href="https://www.sss.gov/verify/" target="_blank" rel="noopener">Verify Status</a>
+        <a href="#disclaimer">Disclaimer</a>
+      </nav>
     </div>
   </header>
 
   <main>
     <section class="hero">
       <div class="wrap">
-        <img class="hero-img" src="images/uncle-sam.svg" alt="Uncle Sam pointing">
-        <h1>Uncle Sam Wants YOU...</h1>
-        <p class="tagline">to know your rights before you show up.</p>
-        <p class="lede">Check your status, your exemptions, and your entitlements — in minutes.</p>
+        <img class="hero-img" src="images/uncle-sam.png" alt="Uncle Sam pointing">
+        <div class="hero-slide active">
+          <h1>Uncle Sam Wants YOU...</h1>
+          <p class="tagline">to know your rights before you show up.</p>
+          <p class="lede">Check your status, your exemptions, and your entitlements — in minutes.</p>
+        </div>
+        <a class="hero-slide" href="pages/myths.html">
+          <h1>It's a MYTH that men are drafted directly into the military! A draft is orders to "show up" for exemption evaluation.</h1>
+        </a>
+        <a class="hero-slide" href="pages/college-deferment.html">
+          <h1>Surprise! No More College Deferment!</h1>
+        </a>
+        <div class="hero-slide">
+          <h1>[Placeholder Slide 4 Headline]</h1>
+          <p class="tagline">[Placeholder slide 4: one-line call to action.]</p>
+          <p class="lede">[Placeholder slide 4: one-line supporting detail.]</p>
+        </div>
+        <div class="hero-slide">
+          <h1>[Placeholder Slide 5 Headline]</h1>
+          <p class="tagline">[Placeholder slide 5: one-line call to action.]</p>
+          <p class="lede">[Placeholder slide 5: one-line supporting detail.]</p>
+        </div>
+        <div class="dots">
+          <button type="button" class="active" aria-label="Slide 1"></button>
+          <button type="button" aria-label="Slide 2"></button>
+          <button type="button" aria-label="Slide 3"></button>
+          <button type="button" aria-label="Slide 4"></button>
+          <button type="button" aria-label="Slide 5"></button>
+        </div>
       </div>
     </section>
 
@@ -70,11 +102,16 @@
             <label for="age">Your Age</label>
             <select id="age" required>
               <option value="">Select age</option>
-              <option value="under18">Under 18</option>
-              <option value="18-20">18–20</option>
-              <option value="21-25">21–25</option>
-              <option value="26-35">26–35</option>
-              <option value="36plus">36 or older</option>
+              <option value="17">17 or younger</option>
+              <option value="18">18</option>
+              <option value="19">19</option>
+              <option value="20">20</option>
+              <option value="21">21</option>
+              <option value="22">22</option>
+              <option value="23">23</option>
+              <option value="24">24</option>
+              <option value="25">25</option>
+              <option value="26">26 or older</option>
             </select>
           </div>
 
@@ -84,7 +121,6 @@
               <option value="">Select gender</option>
               <option value="male">Male</option>
               <option value="female">Female</option>
-              <option value="other">Other / Prefer not to say</option>
             </select>
           </div>
 
@@ -93,10 +129,8 @@
             <select id="citizenship" required>
               <option value="">Select status</option>
               <option value="citizen">U.S. Citizen</option>
-              <option value="dual">Dual Citizen</option>
-              <option value="resident">Permanent Resident (Green Card)</option>
-              <option value="visa">Temporary Visa Holder</option>
-              <option value="other">Other</option>
+              <option value="immigrant">Immigrant in U.S.</option>
+              <option value="nonresident">Non-U.S. Resident</option>
             </select>
           </div>
 
@@ -104,11 +138,9 @@
             <label for="student">Student Status</label>
             <select id="student" required>
               <option value="">Select status</option>
-              <option value="none">Not a Student</option>
-              <option value="highschool">High School</option>
-              <option value="college">College / Trade School</option>
-              <option value="grad">Graduate / Professional School</option>
-              <option value="divinity">Divinity / Ministry School</option>
+              <option value="highschool">High School Student</option>
+              <option value="college">College Student</option>
+              <option value="notstudent">Not a Student</option>
             </select>
           </div>
 
@@ -116,10 +148,9 @@
             <label for="health">Health Condition</label>
             <select id="health" required>
               <option value="">Select condition</option>
-              <option value="none">No Known Conditions</option>
-              <option value="minor">Minor / Managed Condition</option>
-              <option value="serious">Serious / Chronic Condition</option>
-              <option value="disability">Permanent Disability</option>
+              <option value="healthy">Healthy / Fit</option>
+              <option value="minor">Minor Condition</option>
+              <option value="major">Major Condition / Disability</option>
             </select>
           </div>
 
@@ -129,7 +160,7 @@
               <option value="">Select</option>
               <option value="yes">Yes</option>
               <option value="no">No</option>
-              <option value="unsure">Not Sure</option>
+              <option value="notsure">Not Sure</option>
             </select>
           </div>
 
@@ -140,7 +171,7 @@
       </div>
     </section>
 
-    <section class="faq">
+    <section class="faq" id="faq">
       <div class="wrap">
         <h2>Frequently Asked Questions</h2>
 
@@ -168,7 +199,7 @@
     </section>
   </main>
 
-  <footer>
+  <footer id="disclaimer">
     <div class="wrap">For informational and entertainment purposes only. Not legal advice.</div>
   </footer>
 

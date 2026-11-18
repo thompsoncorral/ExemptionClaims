@@ -7,58 +7,92 @@ document.querySelectorAll('.faq-q').forEach(function (btn) {
   });
 });
 
-// Hypothetical draft risk calculator
+// Hero banner rotation: 5 slides, auto-advance every 10s, dots clickable
+(function () {
+  var slides = document.querySelectorAll('.hero-slide');
+  var dots = document.querySelectorAll('.dots button');
+  if (!slides.length) return;
+  var current = 0;
+  var timer;
+
+  function showSlide(i) {
+    slides[current].classList.remove('active');
+    dots[current].classList.remove('active');
+    slides[i].classList.add('active');
+    dots[i].classList.add('active');
+    current = i;
+  }
+  function start() {
+    timer = setInterval(function () { showSlide((current + 1) % slides.length); }, 10000);
+  }
+  dots.forEach(function (dot, i) {
+    dot.addEventListener('click', function () {
+      clearInterval(timer);
+      showSlide(i);
+      start();
+    });
+  });
+  start();
+})();
+
+// Draft risk calculator
+// Based on public Selective Service / MSSA rules: age call order (20 first, then 21-25,
+// then 19, then 18), registration applies to men 18-25, deferments and disqualifications
+// lower the odds of call-up. This is not a prediction; there is no active draft.
+var AGE_CALL_ORDER_WEIGHT = {
+  '20': 100, '21': 90, '22': 80, '23': 70, '24': 60, '25': 50,
+  '19': 30, '18': 15,
+  '17': 0,  // not yet subject to registration
+  '26': 0   // aged out of registration requirement
+};
+var STUDENT_DEFERMENT_MULTIPLIER = { highschool: 0.4, college: 0.7, notstudent: 1.0 };
+var HEALTH_MULTIPLIER = { healthy: 1.0, minor: 0.75, major: 0.1 };
+var CITIZENSHIP_MULTIPLIER = { citizen: 1.0, immigrant: 1.0, nonresident: 0.0 };
+
 var form = document.getElementById('riskForm');
 if (form) {
   form.addEventListener('submit', function (e) {
     e.preventDefault();
     var v = function (id) { return document.getElementById(id).value; };
-    var age = v('age'), gender = v('gender'), cit = v('citizenship'),
-        student = v('student'), health = v('health'), reg = v('registered');
+    var age = v('age'), gender = v('gender'), citizenship = v('citizenship'),
+        student = v('student'), health = v('health'), registered = v('registered');
 
-    var score = 50;
+    var percent = 0;
     var notes = [];
 
-    // Age
-    if (age === 'under18') { score -= 35; notes.push('You are under 18 — too young to be called.'); }
-    else if (age === '18-20') { score += 25; notes.push('Ages 18–20 would be among the first called in a lottery.'); }
-    else if (age === '21-25') { score += 15; notes.push('Ages 21–25 are within the prime draft window.'); }
-    else if (age === '26-35') { score -= 30; notes.push('26 and older is past the standard registration window.'); }
-    else if (age === '36plus') { score -= 45; notes.push('36 and older is well outside the draft age range.'); }
+    if (gender === 'female') {
+      notes.push('Women are not currently subject to Selective Service registration under existing federal law.');
+    } else if (age === '17' || age === '26') {
+      notes.push(age === '17'
+        ? 'Registration is not required until 30 days after your 18th birthday.'
+        : 'Registration is only required through age 25; you are no longer subject to the requirement.');
+    } else if (citizenship === 'nonresident') {
+      notes.push('Non-U.S. residents living outside the United States are not subject to U.S. Selective Service registration.');
+    } else {
+      percent = (AGE_CALL_ORDER_WEIGHT[age] || 0) *
+        (STUDENT_DEFERMENT_MULTIPLIER[student] || 1) *
+        (HEALTH_MULTIPLIER[health] || 1) *
+        (CITIZENSHIP_MULTIPLIER[citizenship] === undefined ? 1 : CITIZENSHIP_MULTIPLIER[citizenship]);
+      percent = Math.round(Math.max(0, Math.min(100, percent)));
 
-    // Gender
-    if (gender === 'male') { score += 10; notes.push('Men are currently required to register.'); }
-    else if (gender === 'female') { score -= 25; notes.push('Women are not currently required to register.'); }
+      if (student === 'highschool') notes.push('High school deferment applies until graduation or age 20.');
+      if (student === 'college') notes.push('College deferment applies until the end of the current semester (or academic year for seniors).');
+      if (health === 'major') notes.push('Major medical/disability conditions are grounds for disqualification at a MEPS physical.');
+      if (health === 'minor') notes.push('Minor conditions may or may not be disqualifying — a MEPS physical would determine this.');
+      if (registered === 'no') notes.push('You are required to register if you have not already — failure to register carries federal penalties.');
+      if (registered === 'notsure') notes.push('Verify your registration status directly at sss.gov/verify.');
+    }
 
-    // Citizenship
-    if (cit === 'visa') { score -= 30; notes.push('Most temporary visa holders are not required to register.'); }
-    else if (cit === 'citizen' || cit === 'dual' || cit === 'resident') { score += 5; }
-
-    // Student
-    if (student === 'highschool') { score -= 10; notes.push('High school students can postpone until graduation or age 20.'); }
-    else if (student === 'college' || student === 'grad') { score -= 3; notes.push('College students can only postpone until the end of the current semester.'); }
-    else if (student === 'divinity') { score -= 25; notes.push('Divinity students may qualify for a deferment.'); }
-
-    // Health
-    if (health === 'minor') { score -= 5; }
-    else if (health === 'serious') { score -= 20; notes.push('A serious condition could disqualify you at MEPS.'); }
-    else if (health === 'disability') { score -= 35; notes.push('A permanent disability would likely disqualify you.'); }
-
-    // Registered
-    if (reg === 'no') { notes.push('Not registering can cost you federal student aid, federal jobs, and more.'); }
-    else if (reg === 'unsure') { notes.push('You can check your registration status at sss.gov.'); }
-
-    score = Math.max(0, Math.min(100, score));
     var level, cls;
-    if (score >= 65) { level = 'High'; cls = 'high'; }
-    else if (score >= 35) { level = 'Medium'; cls = 'medium'; }
+    if (percent >= 65) { level = 'High'; cls = 'high'; }
+    else if (percent >= 35) { level = 'Medium'; cls = 'medium'; }
     else { level = 'Low'; cls = 'low'; }
 
-    var html = '<p class="level ' + cls + '">Draft Risk: ' + level + '</p>';
+    var html = '<p class="level ' + cls + '">Draft Risk: ' + percent + '% (' + level + ')</p>';
     if (notes.length) {
       html += '<ul>' + notes.map(function (n) { return '<li>' + n + '</li>'; }).join('') + '</ul>';
     }
-    html += '<p class="fine">Hypothetical estimate for fun and education only. There is no active draft.</p>';
+    html += '<p class="fine">Reflects relative standing under current public Selective Service rules if a draft were ever activated. There is no active draft.</p>';
 
     var box = document.getElementById('result');
     box.innerHTML = html;
