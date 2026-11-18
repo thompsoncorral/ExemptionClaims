@@ -106,49 +106,15 @@ document.querySelectorAll('.mainnav a').forEach(function (a) {
 });
 
 // Entitlement cards: slim rows that drop open in place, one at a time.
-// Each card pulls its info from its own page (data-src), so content lives in one place.
+// The menu and in-page links jump to their spot on this page, opening a topic if needed.
 (function () {
-  var cards = document.querySelectorAll('.cards .card[data-src]');
-  if (!cards.length) return;
-
-  function load(card) {
-    if (card.dataset.loaded) return Promise.resolve();
-    var src = card.dataset.src;
-    var box = card.querySelector('.card-body .content');
-    box.innerHTML = '<p>Loading…</p>';
-    return fetch(src)
-      .then(function (r) { if (!r.ok) throw new Error(r.status); return r.text(); })
-      .then(function (html) {
-        var page = new DOMParser().parseFromString(html, 'text/html');
-        var content = page.querySelector('.content');
-        if (!content) throw new Error('no content');
-        var base = new URL(src, location.href);
-        content.querySelectorAll('a[href]').forEach(function (a) {
-          a.setAttribute('href', new URL(a.getAttribute('href'), base).href);
-        });
-        box.innerHTML = content.innerHTML;
-        var link = document.createElement('a');
-        link.className = 'full-link';
-        link.href = src;
-        link.textContent = 'Open as full page →';
-        box.appendChild(link);
-        card.dataset.loaded = '1';
-      })
-      .catch(function () {
-        box.innerHTML = '<p>Sorry, this section could not load. <a class="full-link" href="' + src + '">Open the full page →</a></p>';
-      });
-  }
-
-  function fit(card) {
-    var body = card.querySelector('.card-body');
-    body.style.height = body.scrollHeight + 'px';
-  }
+  var cards = document.querySelectorAll('.cards .card');
 
   function open(card) {
+    var body = card.querySelector('.card-body');
     card.classList.add('open');
     card.querySelector('.card-toggle').setAttribute('aria-expanded', 'true');
-    fit(card);
-    load(card).then(function () { if (card.classList.contains('open')) fit(card); });
+    body.style.height = body.scrollHeight + 'px';
   }
 
   function close(card) {
@@ -160,23 +126,42 @@ document.querySelectorAll('.mainnav a').forEach(function (a) {
     card.querySelector('.card-toggle').setAttribute('aria-expanded', 'false');
   }
 
+  // Open one card (closing any other) and optionally scroll to it
+  function show(card, scrollTo) {
+    cards.forEach(function (c) { if (c !== card && c.classList.contains('open')) close(c); });
+    if (!card.classList.contains('open')) open(card);
+    setTimeout(function () {
+      var top = card.getBoundingClientRect().top;
+      if (scrollTo || top < 0) card.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }, 320);
+  }
+
   cards.forEach(function (card) {
     var body = card.querySelector('.card-body');
     body.addEventListener('transitionend', function (e) {
       if (e.propertyName === 'height' && card.classList.contains('open')) body.style.height = 'auto';
     });
     card.querySelector('.card-toggle').addEventListener('click', function () {
-      var opening = !card.classList.contains('open');
-      cards.forEach(function (c) { if (c !== card && c.classList.contains('open')) close(c); });
-      if (opening) {
-        open(card);
-        // If a long card above just closed, keep the newly opened one in view
-        setTimeout(function () {
-          if (card.getBoundingClientRect().top < 0) card.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        }, 320);
-      } else {
-        close(card);
-      }
+      if (card.classList.contains('open')) close(card);
+      else show(card, false);
     });
   });
+
+  document.addEventListener('click', function (e) {
+    var a = e.target.closest('a[href^="#"]');
+    if (!a) return;
+    var id = a.getAttribute('href').slice(1);
+    var target = id && document.getElementById(id);
+    if (!target) return;
+    e.preventDefault();
+    history.replaceState(null, '', '#' + id);
+    if (target.classList.contains('card')) show(target, true);
+    else target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  });
+
+  // Arriving with a link like #myths opens that topic
+  if (location.hash) {
+    var start = document.getElementById(location.hash.slice(1));
+    if (start && start.classList.contains('card')) show(start, true);
+  }
 })();
