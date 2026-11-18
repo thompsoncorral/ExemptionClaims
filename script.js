@@ -99,3 +99,8 @@ if (form) {
     box.classList.add('show');
   });
 }
+
+// Highlight the current page in the top menu
+document.querySelectorAll('.mainnav a').forEach(function (a) {
+  if (a.pathname === location.pathname && !a.hash) a.classList.add('current');
+});

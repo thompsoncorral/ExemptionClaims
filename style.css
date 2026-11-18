@@ -11,6 +11,9 @@
 }
 
 * { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+.mainnav a.current { color: var(--gold); }
+.content .faq { margin-bottom: 0; }
 
 body {
   margin: 0;
