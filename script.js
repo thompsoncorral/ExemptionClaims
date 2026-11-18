@@ -104,3 +104,79 @@ if (form) {
 document.querySelectorAll('.mainnav a').forEach(function (a) {
   if (a.pathname === location.pathname && !a.hash) a.classList.add('current');
 });
+
+// Entitlement cards: slim rows that drop open in place, one at a time.
+// Each card pulls its info from its own page (data-src), so content lives in one place.
+(function () {
+  var cards = document.querySelectorAll('.cards .card[data-src]');
+  if (!cards.length) return;
+
+  function load(card) {
+    if (card.dataset.loaded) return Promise.resolve();
+    var src = card.dataset.src;
+    var box = card.querySelector('.card-body .content');
+    box.innerHTML = '<p>Loading…</p>';
+    return fetch(src)
+      .then(function (r) { if (!r.ok) throw new Error(r.status); return r.text(); })
+      .then(function (html) {
+        var page = new DOMParser().parseFromString(html, 'text/html');
+        var content = page.querySelector('.content');
+        if (!content) throw new Error('no content');
+        var base = new URL(src, location.href);
+        content.querySelectorAll('a[href]').forEach(function (a) {
+          a.setAttribute('href', new URL(a.getAttribute('href'), base).href);
+        });
+        box.innerHTML = content.innerHTML;
+        var link = document.createElement('a');
+        link.className = 'full-link';
+        link.href = src;
+        link.textContent = 'Open as full page →';
+        box.appendChild(link);
+        card.dataset.loaded = '1';
+      })
+      .catch(function () {
+        box.innerHTML = '<p>Sorry, this section could not load. <a class="full-link" href="' + src + '">Open the full page →</a></p>';
+      });
+  }
+
+  function fit(card) {
+    var body = card.querySelector('.card-body');
+    body.style.height = body.scrollHeight + 'px';
+  }
+
+  function open(card) {
+    card.classList.add('open');
+    card.querySelector('.card-toggle').setAttribute('aria-expanded', 'true');
+    fit(card);
+    load(card).then(function () { if (card.classList.contains('open')) fit(card); });
+  }
+
+  function close(card) {
+    var body = card.querySelector('.card-body');
+    body.style.height = body.scrollHeight + 'px';
+    body.offsetHeight; // lock current height so it can animate closed
+    body.style.height = '0px';
+    card.classList.remove('open');
+    card.querySelector('.card-toggle').setAttribute('aria-expanded', 'false');
+  }
+
+  cards.forEach(function (card) {
+    var body = card.querySelector('.card-body');
+    body.addEventListener('transitionend', function (e) {
+      if (e.propertyName === 'height' && card.classList.contains('open')) body.style.height = 'auto';
+    });
+    card.querySelector('.card-toggle').addEventListener('click', function () {
+      var opening = !card.classList.contains('open');
+      cards.forEach(function (c) { if (c !== card && c.classList.contains('open')) close(c); });
+      if (opening) {
+        open(card);
+        // If a long card above just closed, keep the newly opened one in view
+        setTimeout(function () {
+          if (card.getBoundingClientRect().top < 0) card.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }, 320);
+      } else {
+        close(card);
+      }
+    });
+  });
+})();
