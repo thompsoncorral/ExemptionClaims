@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="Uncle Sam placeholder">
+  <!-- Placeholder: replace with the real Uncle Sam image (images/uncle-sam.png) -->
+  <g fill="#0f5566">
+    <!-- hat brim -->
+    <ellipse cx="100" cy="78" rx="62" ry="9"/>
+    <!-- hat crown -->
+    <path d="M70 76 L74 18 Q100 10 126 18 L130 76 Z"/>
+  </g>
+  <!-- hat band -->
+  <rect x="71" y="56" width="58" height="12" fill="#ffffff"/>
+  <g fill="#0f5566">
+    <polygon points="85,58 86.8,62 91,62 87.6,64.5 89,68 85,65.6 81,68 82.4,64.5 79,62 83.2,62"/>
+    <polygon points="100,58 101.8,62 106,62 102.6,64.5 104,68 100,65.6 96,68 97.4,64.5 94,62 98.2,62"/>
+    <polygon points="115,58 116.8,62 121,62 117.6,64.5 119,68 115,65.6 111,68 112.4,64.5 109,62 113.2,62"/>
+  </g>
+  <g fill="#0f5566">
+    <!-- head -->
+    <ellipse cx="100" cy="104" rx="24" ry="26"/>
+    <!-- goatee -->
+    <path d="M88 122 Q100 158 112 122 Z"/>
+    <!-- shoulders / coat -->
+    <path d="M40 200 Q44 150 80 140 L100 160 L120 140 Q156 150 160 200 Z"/>
+    <!-- pointing arm toward viewer -->
+    <circle cx="100" cy="176" r="16"/>
+  </g>
+  <!-- face highlights -->
+  <g fill="#ffffff">
+    <ellipse cx="91" cy="100" rx="4" ry="2.5"/>
+    <ellipse cx="109" cy="100" rx="4" ry="2.5"/>
+  </g>
+  <!-- bow tie -->
+  <path d="M86 140 L100 147 L86 154 Z M114 140 L100 147 L114 154 Z" fill="#ffffff"/>
+</svg>

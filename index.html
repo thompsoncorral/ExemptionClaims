@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Selective Service Exemptions &amp; Entitlements</title>
+  <meta name="description" content="Know your rights before you show up. Check your status, your exemptions, and your entitlements — in minutes.">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="wrap">
+      <a href="index.html">
+        <p class="brand-title">Selective Service</p>
+        <p class="brand-sub">Exemptions &amp; Entitlements</p>
+      </a>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="wrap">
+        <img class="hero-img" src="images/uncle-sam.svg" alt="Uncle Sam pointing">
+        <h1>Uncle Sam Wants YOU...</h1>
+        <p class="tagline">to know your rights before you show up.</p>
+        <p class="lede">Check your status, your exemptions, and your entitlements — in minutes.</p>
+      </div>
+    </section>
+
+    <section id="entitled">
+      <div class="wrap">
+        <h2 class="section-title">What You're Entitled To</h2>
+        <p class="section-intro">[Placeholder intro paragraph explaining, in plain language, why this section matters to the reader.]</p>
+
+        <div class="cards">
+          <a class="card placeholder" href="pages/entitlement-1.html">
+            <h3>[Placeholder Entitlement 1]</h3>
+            <p>[Placeholder description text goes here.]</p>
+          </a>
+          <a class="card" href="pages/exemptions.html">
+            <h3>Exemptions</h3>
+          </a>
+          <a class="card" href="pages/faith-based-rights.html">
+            <h3>Your Faith-Based Rights and Draft Exemptions</h3>
+          </a>
+          <a class="card" href="pages/myths.html">
+            <h3>Myths</h3>
+          </a>
+          <a class="card" href="pages/college-deferment.html">
+            <h3>Surprise! No More College Deferment!</h3>
+          </a>
+          <a class="card" href="pages/asvab.html">
+            <h3>ASVAB</h3>
+          </a>
+          <a class="card" href="pages/meps.html">
+            <h3>Other Things Generation Alpha Should Also Know About MEPS!</h3>
+          </a>
+          <a class="card" href="pages/being-drafted.html">
+            <h3>What Does Being Drafted Really Mean?</h3>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <section id="calculator">
+      <div class="wrap">
+        <form class="calc" id="riskForm">
+          <div class="field">
+            <label for="age">Your Age</label>
+            <select id="age" required>
+              <option value="">Select age</option>
+              <option value="under18">Under 18</option>
+              <option value="18-20">18–20</option>
+              <option value="21-25">21–25</option>
+              <option value="26-35">26–35</option>
+              <option value="36plus">36 or older</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label for="gender">Gender</label>
+            <select id="gender" required>
+              <option value="">Select gender</option>
+              <option value="male">Male</option>
+              <option value="female">Female</option>
+              <option value="other">Other / Prefer not to say</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label for="citizenship">Citizenship Status</label>
+            <select id="citizenship" required>
+              <option value="">Select status</option>
+              <option value="citizen">U.S. Citizen</option>
+              <option value="dual">Dual Citizen</option>
+              <option value="resident">Permanent Resident (Green Card)</option>
+              <option value="visa">Temporary Visa Holder</option>
+              <option value="other">Other</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label for="student">Student Status</label>
+            <select id="student" required>
+              <option value="">Select status</option>
+              <option value="none">Not a Student</option>
+              <option value="highschool">High School</option>
+              <option value="college">College / Trade School</option>
+              <option value="grad">Graduate / Professional School</option>
+              <option value="divinity">Divinity / Ministry School</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label for="health">Health Condition</label>
+            <select id="health" required>
+              <option value="">Select condition</option>
+              <option value="none">No Known Conditions</option>
+              <option value="minor">Minor / Managed Condition</option>
+              <option value="serious">Serious / Chronic Condition</option>
+              <option value="disability">Permanent Disability</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label for="registered">Selective Service Registered?</label>
+            <select id="registered" required>
+              <option value="">Select</option>
+              <option value="yes">Yes</option>
+              <option value="no">No</option>
+              <option value="unsure">Not Sure</option>
+            </select>
+          </div>
+
+          <button type="submit" class="btn">Calculate My Draft Risk</button>
+
+          <div class="result" id="result" aria-live="polite"></div>
+        </form>
+      </div>
+    </section>
+
+    <section class="faq">
+      <div class="wrap">
+        <h2>Frequently Asked Questions</h2>
+
+        <div class="faq-item">
+          <button class="faq-q" type="button">[Placeholder question 1]? <span class="icon">+</span></button>
+          <div class="faq-a">[Placeholder answer text goes here.]</div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q" type="button">[Placeholder question 2]? <span class="icon">+</span></button>
+          <div class="faq-a">[Placeholder answer text goes here.]</div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q" type="button">[Placeholder question 3]? <span class="icon">+</span></button>
+          <div class="faq-a">[Placeholder answer text goes here.]</div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q" type="button">[Placeholder question 4]? <span class="icon">+</span></button>
+          <div class="faq-a">[Placeholder answer text goes here.]</div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q" type="button">[Placeholder question 5]? <span class="icon">+</span></button>
+          <div class="faq-a">[Placeholder answer text goes here.]</div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap">For informational and entertainment purposes only. Not legal advice.</div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
