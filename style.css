@@ -197,6 +197,46 @@ a { color: inherit; }
 .purchase-btn { display: block; width: 100%; padding: 16px; font-size: 1.05rem; font-weight: 700; color: #fff; background: var(--blue); border: none; border-radius: 10px; cursor: pointer; }
 .purchase-btn:disabled { opacity: 0.85; cursor: default; }
 
+/* Digestible content blocks (used on pages and inside dropdowns) */
+.content .tldr { background: #fffbf0; border: 1.5px solid var(--gold); border-radius: 12px; padding: 18px 20px; margin: 0 0 30px; }
+.content .tldr h4 { margin: 0 0 8px; font-size: 0.78rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--gold-text); }
+.content .tldr ul { margin: 0; }
+.content .group { margin: 0 0 22px; padding: 18px 20px; border: 1px solid var(--line); border-radius: 12px; }
+.content .group h4 { margin: 6px 0 4px; }
+.content .group .sub { margin: 0 0 8px; color: #666; font-size: 0.93rem; font-style: italic; }
+.content .group-label { display: inline-block; font-size: 0.72rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; padding: 3px 10px; border-radius: 999px; }
+.label-green { background: #e6f4ec; color: #2e7d4f; }
+.label-blue { background: #e8effb; color: #3a6cc0; }
+.label-gold { background: #fdf3d9; color: #a77a12; }
+.content ul.checks { list-style: none; padding: 0; margin: 10px 0 0; }
+.content ul.checks > li { position: relative; padding-left: 26px; }
+.content ul.checks > li::before { content: "✓"; position: absolute; left: 3px; color: #2e8b57; font-weight: 700; }
+.content ul.checks ol { margin: 8px 0 0; }
+.content .options { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin: 10px 0 24px; }
+.content .option { border: 1px solid var(--line); border-radius: 12px; padding: 16px 18px; }
+.content .option.recommended { border: 1.5px solid var(--blue); background: #f5f8fe; }
+.content .option strong { display: block; margin: 6px 0 6px; }
+.content .option p { margin: 0; font-size: 0.93rem; }
+.content .option-tag { font-size: 0.72rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--gray); }
+.content .option.recommended .option-tag { color: var(--blue); }
+.content .callout { border-left: 4px solid var(--blue); background: #f5f8fe; border-radius: 8px; padding: 14px 18px; margin: 24px 0; }
+.content .callout.warn { border-left-color: var(--gold); background: #fffbf0; }
+.content .callout p { margin: 0; }
+.content .callout-title { display: block; font-weight: 700; margin-bottom: 4px; }
+.content ol.steps { list-style: none; counter-reset: step; padding: 0; margin: 14px 0 0; }
+.content ol.steps > li { counter-increment: step; position: relative; margin: 0 0 0 15px; padding: 0 0 22px 28px; border-left: 2px solid #dfe6f3; }
+.content ol.steps > li:last-child { border-left-color: transparent; padding-bottom: 4px; }
+.content ol.steps > li::before { content: counter(step); position: absolute; left: -15px; top: -2px; width: 28px; height: 28px; border-radius: 50%; background: var(--blue); color: #fff; font-weight: 700; font-size: 0.85rem; display: flex; align-items: center; justify-content: center; }
+.content ol.steps strong { display: block; margin-bottom: 2px; }
+.content .cite { display: block; margin-top: 4px; font-size: 0.8rem; color: var(--gray); }
+.content .appeal-path { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; margin: 6px 0 8px; }
+.content .appeal-path span { background: #f0f3f8; border-radius: 999px; padding: 5px 12px; font-size: 0.88rem; }
+.content .appeal-path span.arrow { background: none; padding: 0; color: var(--gray); }
+.content details.more { margin: 20px 0; border: 1px solid var(--line); border-radius: 10px; padding: 12px 16px; }
+.content details.more summary { cursor: pointer; font-weight: 600; color: var(--blue); }
+.content details.more[open] summary { margin-bottom: 8px; }
+@media (max-width: 600px) { .content .options { grid-template-columns: 1fr; } }
+
 footer { text-align: center; color: var(--gray); font-size: 0.8rem; padding: 30px 0 50px; border-top: 1px solid var(--line); }
 
 @media (max-width: 600px) {
